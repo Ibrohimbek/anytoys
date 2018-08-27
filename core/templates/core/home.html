@@ -1,0 +1,150 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>AnyToys</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "core/css/home.css" %}" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+    <div class="navbar bg-white border-bottom box-shadow">
+        <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+                <strong>AnyToys</strong>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main role="main">
+
+    <section class="jumbotron text-center" style="height: 250px; padding-top: 45px">
+        <div class="container">
+            <h1 class="jumbotron-heading">Share happiness with child!</h1>
+            <p class="lead text-muted">Add your toys to sale, rent, or donate to your neighbors, people from
+                countryside.</p>
+            <p>
+                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addToyModal">Add Toy</a>
+            </p>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+          <div class="row">
+                {% for toy in toys %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top"
+                                 data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
+                                 alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;"
+                                 src="{{ toy.photo_url }}"
+                                 data-holder-rendered="true">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ toy.name }}</h5>
+                                <p class="card-text">{{ toy.description }}</p>
+                                <p class="card-text"><b>Owner:</b> {{ toy.owner_name }}
+                                    </br>Tel: {{ toy.owner_phone_number }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge badge-primary">{{ toy.type }}</span>
+                                    <small class="text-muted">{{ toy.created_at }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer class="text-muted">
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+    </div>
+</footer>
+
+<!-- Add Toy Modal -->
+<div class="modal fade" id="addToyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Toy</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url "home" %}" method="post" enctype="application/x-www-form-urlencoded">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="id_name" class="col-form-label">Name</label>
+                            <input type="text" class="form-control" id="id_name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_description" class="col-form-label">Description</label>
+                            <textarea class="form-control" id="id_description" name="description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_photo" class="col-form-label">Photo</label>
+                            <input type="file" class="form-control" id="id_photo" name="photo">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_type">Type</label>
+                            <select class="form-control" id="id_type" name="type">
+                                <option value="sale">Sale</option>
+                                <option value="rent">Rent</option>
+                                <option value="description">Donation</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_owner" class="col-form-label">Owner name</label>
+                            <input type="text" class="form-control" id="id_owner" name="owner_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_owner_phone_number" class="col-form-label">Phone number</label>
+                            <input type="text" class="form-control" id="id_owner_phone_number" name="owner_phone_number"
+                                   required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>

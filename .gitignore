@@ -1,0 +1,47 @@
+### Project ###
+docs/_build/
+docs/locale/
+/media/*
+/static/*
+/.vagrant
+coverage.xml
+junit-*.xml
+junit.xml
+
+### OS X ###
+.DS_Store
+*~
+
+### Python ###
+*.py[cod]
+.cache
+__pycache__
+
+# Translations
+*.mo
+
+### Django ###
+*.log
+*.pot
+
+### PyCharm ###
+.idea
+
+### Others ###
+/.project
+/.pydevproject
+ignored_helpers
+
+### Test related ###
+.coverage
+htmlcov
+backend-coverage
+.tox
+.pytest_cache/
+
+### Vagrant ###
+deployment/dev/setup.retry
+
+db.sqlite3
+*.pyc
+
